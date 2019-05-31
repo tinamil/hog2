@@ -10,7 +10,7 @@
 #define MM0Rubik_hpp
 
 #include <stdio.h>
-#include "RubiksCube.h"
+#include "../../environments/RubiksCube.h"
 
 #define NAMESPACE_OPEN(_name) namespace _name {
 #define NAMESPACE_CLOSE(_name) }

@@ -15,14 +15,14 @@
 #include <vector>
 #include "RubiksCubeCorners.h"
 #include "RubiksCubeEdges.h"
-#include "SearchEnvironment.h"
-#include "RubiksCube7Edges.h"
-#include "FourBitArray.h"
-#include "DiskBitFile.h"
-#include "EnvUtil.h"
-#include "Bloom.h"
-#include "MinBloom.h"
-#include "PDBHeuristic.h"
+#include "../search/SearchEnvironment.h"
+//#include "RubiksCube7Edges.h"
+#include "../utils/FourBitArray.h"
+#include "../utils/DiskBitFile.h"
+#include "../utils/EnvUtil.h"
+//#include "../utils/Bloom.h"
+//#include "../utils/MinBloom.h"
+#include "../search/PDBHeuristic.h"
 
 class RubiksState
 {
@@ -116,8 +116,8 @@ public:
 
 		edgeDist.resize(16);
 		cornDist.resize(16);
-		depth8 = 0;
-		depth9 = 0;
+		//depth8 = 0;
+		//depth9 = 0;
 		//		for (int x = 0; x < 18; x++)
 //		{
 //			moves[x].act = x;
@@ -166,17 +166,6 @@ public:
 //	FourBitArray &GetEdgePDB() { return edgePDB; }
 	//FourBitArray &GetEdge7PDB(bool min) { if (min) return edge7PDBmin; return edge7PDBint; }
 
-	virtual void OpenGLDraw() const;
-	virtual void OpenGLDraw(const RubiksState&) const;
-	virtual void OpenGLDrawCorners(const RubiksState&) const;
-	virtual void OpenGLDrawEdges(const RubiksState&) const;
-	virtual void OpenGLDrawEdgeDual(const RubiksState&) const;
-	virtual void OpenGLDrawCenters() const;
-	virtual void OpenGLDrawCubeBackground() const;
-	/** Draw the transition at some percentage 0...1 between two states */
-	virtual void OpenGLDraw(const RubiksState&, const RubiksState&, float) const;
-	virtual void OpenGLDraw(const RubiksState&, const RubiksAction&) const;
-	
 	//int64_t percentage;
 	int compressionFactor;
 	bool minCompression;
@@ -185,17 +174,15 @@ public:
 	std::vector<uint64_t> edgeDist;
 	std::vector<uint64_t> cornDist;
 	std::unordered_map<uint64_t, uint8_t> depthTable;
-	BloomFilter *depth8, *depth9;
-	MinBloomFilter *minBloom;
+	//BloomFilter *depth8, *depth9;
+	//MinBloomFilter *minBloom;
 //private:
-	void OpenGLDrawCube(int cube) const;
-	void SetFaceColor(int face) const;
 	mutable std::vector<RubiksAction> history;
 	RubiksCorner c;
 	RubikEdge e;
 	mutable RubikEdgeState dual;
-	mutable Rubik7EdgeState e7dual;
-	Rubik7Edge e7;
+	//mutable Rubik7EdgeState e7dual;
+	//Rubik7Edge e7;
 //	FourBitArray cornerPDB;
 //	FourBitArray edgePDB;
 	//FourBitArray edge7PDBmin;

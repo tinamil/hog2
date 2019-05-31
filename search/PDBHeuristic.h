@@ -13,10 +13,10 @@
 #include <thread>
 #include <string>
 #include "Heuristic.h"
-#include "SharedQueue.h"
-#include "NBitArray.h"
-#include "Timer.h"
-#include "RangeCompression.h"
+#include "../utils/SharedQueue.h"
+#include "../utils/NBitArray.h"
+#include "../utils/Timer.h"
+#include "../utils/RangeCompression.h"
 
 enum PDBLookupType {
 	kPlain,
@@ -147,15 +147,15 @@ double PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, p
 	{
 		case kPlain:
 		{
-			return PDB.Get(GetAbstractHash(a)); //PDB[GetPDBHash(a)];
+			return (double)PDB.Get(GetAbstractHash(a)); //PDB[GetPDBHash(a)];
 		}
 		case kDivCompress:
 		{
-			return PDB.Get(GetAbstractHash(a)/compressionValue);
+			return (double)PDB.Get(GetAbstractHash(a)/compressionValue);
 		}
 		case kModCompress:
 		{
-			return PDB.Get(GetAbstractHash(a)%compressionValue);
+			return (double)PDB.Get(GetAbstractHash(a)%compressionValue);
 		}
 		case kValueCompress:
 		{
@@ -677,13 +677,14 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 }
 
 template <class abstractState, class abstractAction, class abstractEnvironment, class state, uint64_t pdbBits>
-void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::ForwardBackwardThreadWorker(int threadNum, int depth, bool forward,
-																												   NBitArray<pdbBits> &DB,
-																												   std::vector<bool> &coarseOpen,
-																												   std::vector<bool> &coarseClosed,
-																												   SharedQueue<std::pair<uint64_t, uint64_t> > *work,
-																												   SharedQueue<uint64_t> *results,
-																												   std::mutex *lock)
+void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::ForwardBackwardThreadWorker(
+  int threadNum, int depth, bool forward,
+	NBitArray<pdbBits> &DB,
+	std::vector<bool> &coarseOpen,
+	std::vector<bool> &coarseClosed,
+	SharedQueue<std::pair<uint64_t, uint64_t> > *work,
+	SharedQueue<uint64_t> *results,
+	std::mutex *lock)
 {
 	std::pair<uint64_t, uint64_t> p;
 	uint64_t start, end;
@@ -1482,13 +1483,14 @@ double PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, p
 template <class abstractState, class abstractAction, class abstractEnvironment, class state, uint64_t pdbBits>
 void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::ShuffleValues()
 {
-	for (uint64_t x = PDB.Size(); x > 0; x--)
+	/*for (uint64_t x = PDB.Size(); x > 0; x--)
 	{
 		uint64_t index = (((uint64_t)random()<<32)^(uint64_t)random())%(x);
 		uint64_t tmp = PDB.Get(x-1);
 		PDB.Set(x-1, PDB.Get(index));
 		PDB.Set(index, tmp);
-	}
+	}*/
+  throw std::exception("Not implemented - removed random()");
 }
 
 #endif

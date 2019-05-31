@@ -12,8 +12,8 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector>
-#include "PDBHeuristic.h"
-#include "MR1Permutation.h"
+#include "../search/PDBHeuristic.h"
+#include "../utils/MR1Permutation.h"
 
 class RubiksCornerStateBits
 {
@@ -175,14 +175,7 @@ public:
 	static void GetStateFromHash(uint64_t hash, RubiksCornerState &node);
 	virtual uint64_t GetActionHash(RubiksCornersAction act) const { return 0; }
 	
-	virtual void OpenGLDraw() const;
-	virtual void OpenGLDraw(const RubiksCornerState&) const;
-	/** Draw the transition at some percentage 0...1 between two states */
-	virtual void OpenGLDraw(const RubiksCornerState&, const RubiksCornerState&, float) const;
-	virtual void OpenGLDraw(const RubiksCornerState&, const RubiksCornersAction&) const;
-	void OpenGLDrawCube(const RubiksCornerState &s, int cube) const;
 private:
-	void SetFaceColor(int face, const RubiksCornerState&) const;
 	//	void SetFaceColor(int face, const RubiksCornerState&) const;
 	static uint64_t MRRank(int n, uint64_t perm, uint64_t dual);
 	static void MRUnrank2(int n, uint64_t r, uint64_t &perm);

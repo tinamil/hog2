@@ -10,11 +10,11 @@
 #define hog2_glut_ParallelIDA_h
 
 #include <iostream>
-#include "SearchEnvironment.h"
-#include <ext/hash_map>
-#include "FPUtil.h"
-#include "vectorCache.h"
-#include "SharedQueue.h"
+#include "../search/SearchEnvironment.h"
+//#include <unordered_map>
+#include "../utils/FPUtil.h"
+#include "../utils/vectorCache.h"
+#include "../utils/SharedQueue.h"
 #include <thread>
 
 const int workDepth = 5;
@@ -332,6 +332,10 @@ void ParallelIDAStar<environment, state, action>::DoIteration(environment *env,
 		env->ApplyAction(currState, actions[x]);
 		action a = actions[x];
 		env->InvertAction(a);
+    int new_h = heuristic->HCost(currState, goal);
+    if (new_h < (h - 1)) {
+      std::cout << "CONSISTENCY ERROR";
+    }
 		DoIteration(env, a, currState, thePath, bound, g+edgeCost, w, cache);
 		env->UndoAction(currState, actions[x]);
 		thePath.pop_back();

@@ -5,7 +5,7 @@
 //  Created by Nathan Sturtevant on 4/5/13.
 //  Copyright (c) 2013 Nathan Sturtevant. All rights reserved.
 //
-
+#include <algorithm>
 #include "DiskBitFile.h"
 
 DiskBitFile::DiskBitFile(const char *pre)

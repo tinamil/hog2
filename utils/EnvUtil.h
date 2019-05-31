@@ -14,6 +14,7 @@
 #include <cassert>
 #include <stdint.h>
 #include <cstdio>
+#include <mutex>
 
 const int openSize = 256;
 const int numBuckets = 2;
@@ -33,14 +34,14 @@ struct bucketData {
 };
 
 struct bucketChanges {
-	bucketChanges() { 	pthread_mutex_init(&lock, NULL); }
+	bucketChanges() {  }
 	bool updated;
 	int currDepthWritten;
 	int lastDepthWritten;
 	std::vector<bool> changes;
 	//	std::vector<bool> roundChanges;
 	std::vector<bool> nextChanges;
-	pthread_mutex_t lock;
+	std::mutex lock;
 };
 
 template <class Environment, class State>

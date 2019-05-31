@@ -12,9 +12,9 @@
 #include <iostream>
 #include <stdint.h>
 #include <vector>
-#include "SearchEnvironment.h"
-#include "PDBHeuristic.h"
-#include "MR1Permutation.h"
+#include "../search/SearchEnvironment.h"
+#include "../search/PDBHeuristic.h"
+#include "../utils/MR1Permutation.h"
 
 class RubikEdgeStateBits
 {
@@ -181,12 +181,6 @@ public:
 	virtual uint64_t GetActionHash(RubikEdgeAction act) const { return 0; }
 	virtual void GetStateFromHash(uint64_t hash, RubikEdgeState &node) const;
 	
-	virtual void OpenGLDraw() const;
-	virtual void OpenGLDraw(const RubikEdgeState&) const;
-	/** Draw the transition at some percentage 0...1 between two states */
-	virtual void OpenGLDraw(const RubikEdgeState&, const RubikEdgeState&, float) const;
-	virtual void OpenGLDraw(const RubikEdgeState&, const RubikEdgeAction&) const;
-	void OpenGLDrawCube(const RubikEdgeState &s, int cube) const;
 	static void MRUnrank(int n, uint64_t r, uint64_t &perm);
 	static void MRUnrank2(int n, uint64_t r, uint64_t &perm);
 	static uint64_t MRRank(int n, uint64_t perm, uint64_t dual);

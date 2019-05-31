@@ -15,9 +15,6 @@
 //#include "ReservationProvider.h"
 #include <assert.h>
 #include "Heuristic.h"
-#include "OccupancyInterface.h"
-#include "GLUtil.h"
-#include "Graphics.h"
 
 
 struct Hash64 {
@@ -86,34 +83,14 @@ public:
 	virtual double GetPathLength(std::vector<state> &neighbors);
 	virtual double GetPathLength(const state &start, std::vector<action> &neighbors);
 
-	virtual OccupancyInterface<state,action> *GetOccupancyInfo()
-	{ return 0; }
-	virtual void SetOccupancyInfo(OccupancyInterface<state,action> *)
-	{ }
-
-	virtual void OpenGLDraw() const = 0;
-	virtual void OpenGLDraw(const state&) const = 0;
-	/** Draw the transition at some percentage 0...1 between two states */
-	virtual void OpenGLDraw(const state&, const state&, float) const {}
-	virtual void OpenGLDraw(const state&, const action&) const = 0;
-	virtual void GLLabelState(const state&, const char *) const {} // draw label over state
-	virtual void GLDrawLine(const state &x, const state &y) const {}
-	virtual void GLDrawPath(const std::vector<state> &x) const;
-	virtual void SetColor(const rgbColor &r) const { color = r; }
-	virtual void SetColor(GLfloat rr, GLfloat g, GLfloat b, GLfloat t = 1.0) const { color.r = rr; color.g = g; color.b = b; transparency = t; }
-	virtual void GetColor(GLfloat& rr, GLfloat& g, GLfloat& b, GLfloat &t) const { rr=color.r; g=color.g; b=color.b; t = transparency;}
-	virtual rgbColor GetColor() const { return color; }
-
-#warning "Draw() should be const"
-	virtual void Draw(Graphics::Display &display) {}
-	virtual void Draw(Graphics::Display &display, const state&) const {}
-	virtual void DrawLine(Graphics::Display &display, const state &x, const state &y, float width = 1.0) const {}
+	//virtual OccupancyInterface<state,action> *GetOccupancyInfo()
+	//{ return 0; }
+	//virtual void SetOccupancyInfo(OccupancyInterface<state,action> *)
+	//{ }
 
 protected:
 	bool bValidSearchGoal;
 	state searchGoal;
-	mutable rgbColor color;
-	mutable GLfloat transparency;
 };
 
 
@@ -133,7 +110,7 @@ action SearchEnvironment<state,action>::GetAction(const state &s1, const state &
 	}
 	assert(!"No legal move found.");
 	action act;
-	return act;
+	return 0;
 }
 
 template <class state, class action>
@@ -160,15 +137,5 @@ double SearchEnvironment<state,action>::GetPathLength(const state &start, std::v
 	return length;
 }
 
-
-
-template <class state, class action>
-void SearchEnvironment<state,action>::GLDrawPath(const std::vector<state> &path) const
-{
-	for (unsigned int x = 0; x+1 < path.size(); x++)
-	{
-		GLDrawLine(path[x], path[x+1]);
-	}
-}
 
 #endif

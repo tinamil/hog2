@@ -7,14 +7,14 @@
 //
 
 #include "MMRubik.h"
-#include "IDAStar.h"
-#include "ParallelIDAStar.h"
-#include "Timer.h"
+//#include "IDAStar.h"
+//#include "ParallelIDAStar.h"
+#include "../../utils/Timer.h"
 #include <string>
 #include <unordered_set>
 #include <iomanip>
-#include "SharedQueue.h"
-#include "FixedSizeSet.h"
+#include "../../utils/SharedQueue.h"
+#include "../../utils/FixedSizeSet.h"
 
 NAMESPACE_OPEN(MM)
 
@@ -688,7 +688,7 @@ void BuildHeuristics(RubiksState start, RubiksState goal, Heuristic<RubiksState>
 			RubikPDB *pdb3 = new RubikPDB(&cube, goal, blank, corners);
 			if (!pdb1->Load(hprefix))
 			{
-				pdb1->BuildPDB(goal, std::thread::hardware_concurrency());
+        pdb1->BuildPDB(goal, std::thread::hardware_concurrency());
 				pdb1->Save(hprefix);
 			}
 			if (!pdb2->Load(hprefix))
@@ -752,7 +752,7 @@ void BuildHeuristics(RubiksState start, RubiksState goal, Heuristic<RubiksState>
 			
 			if (!pdb1->Load(hprefix))
 			{
-				pdb1->BuildPDB(goal, std::thread::hardware_concurrency());
+        pdb1->BuildPDB(goal, std::thread::hardware_concurrency());
 				pdb1->Save(hprefix);
 			}
 			else {
@@ -917,8 +917,7 @@ void GetState(RubiksState &s, int bucket, RubiksState data)
 
 #pragma mark Main Code
 
-void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2,
-		heuristicType h, const char *hloc)
+void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2, heuristicType h, const char *hloc)
 //void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2, const char *hloc)
 {
 #ifdef MY_SET
@@ -962,6 +961,7 @@ void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2,
 void CompareIDA(RubiksState &start, RubiksState &goal, heuristicType h, const char *hloc)
 //void CompareIDA(RubiksState &start, RubiksState &goal, const char *p1, const char *p2, const char *hloc)
 {
+  /*
 	hprefix = hloc;
 	
 	bestSolution = 100;
@@ -996,6 +996,7 @@ void CompareIDA(RubiksState &start, RubiksState &goal, heuristicType h, const ch
 		std::cout << path[x] << " ";
 	}
 	std::cout << "\n";
+  */
 }
 
 NAMESPACE_CLOSE(MM)

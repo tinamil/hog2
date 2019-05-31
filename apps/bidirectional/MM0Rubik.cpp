@@ -7,9 +7,9 @@
 //
 
 #include "MMRubik.h"
-#include "IDAStar.h"
-#include "ParallelIDAStar.h"
-#include "Timer.h"
+//#include "IDAStar.h"
+//#include "ParallelIDAStar.h"
+#include "../../utils/Timer.h"
 #include <string>
 #include <unordered_set>
 #include <iomanip>
