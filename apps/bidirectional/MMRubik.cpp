@@ -918,7 +918,6 @@ void GetState(RubiksState &s, int bucket, RubiksState data)
 #pragma mark Main Code
 
 void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2, heuristicType h, const char *hloc)
-//void MM(RubiksState &start, RubiksState &goal, const char *p1, const char *p2, const char *hloc)
 {
 #ifdef MY_SET
 	printf("Using custom set container\n");

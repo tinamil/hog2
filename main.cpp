@@ -157,7 +157,9 @@ void GetKorf1997(Heuristic<RubiksState>& result)
 
   RubiksState goal;
   RubiksCube cube;
-  std::vector<int> blank;
+  std::vector<int> blank;	
+  //std::vector<int> edges1 = { 0, 1, 2, 3, 4, 5, 6, 7 };//{1, 3, 8, 9, 10, 11};
+  //std::vector<int> edges2 = { 1, 3, 5, 7, 8, 9, 10, 11 };
   std::vector<int> edges1 = { 1, 3, 8, 9, 10, 11 };
   std::vector<int> edges2 = { 0, 2, 4, 5, 6, 7 };
   std::vector<int> corners = { 0, 1, 2, 3, 4, 5, 6, 7 };
@@ -169,7 +171,7 @@ void GetKorf1997(Heuristic<RubiksState>& result)
   //	assert(!"Need to abstract the goal state immediately when creating the pdb instead of only when I build the pdb");
   if (!pdb1->Load(hprefix))
   {
-    pdb1->BuildPDB(goal, 1);
+    pdb1->BuildPDB(goal, std::thread::hardware_concurrency());
     pdb1->Save(hprefix);
   }
   else {
@@ -200,19 +202,17 @@ void GetKorf1997(Heuristic<RubiksState>& result)
   result.heuristics.push_back(pdb3);
 }
 
+//#define IDA
 int main()
 {
+  _setmaxstdio(1000);
   static RubiksState start, goal;
-  static const char* heuristicDir = "heuristics";
-  static MM::heuristicType h = MM::k1997;
-  static const char* arg1 = "prefix1";
-  static const char* arg2 = "prefix2";
 
   RubiksCube c;
   goal.Reset();
 
   GetSuperFlip(start);
-  GetKorfRubikInstance(start, 0);
+  GetKorfRubikInstance(start, 7);
 
   std::vector<RubiksAction> acts;
   std::vector<RubiksAction> path;
@@ -221,6 +221,7 @@ int main()
   Heuristic<RubiksState> result;
   Timer t;
   GetKorf1997(result);
+#ifdef IDA
   ida.SetHeuristic(&result);
   t.StartTimer();
   ida.GetPath(&c, start, goal, path);
@@ -236,9 +237,8 @@ int main()
     std::cout << path[x] << " ";
   }
   std::cout << "\n";
+#endif
+  MM::MM(start, goal, "set1/", "set2/", MM::k888, "heuristics/");
 
-  //MM::MM(start, goal, arg1, arg2, h, heuristicDir);
-  //printf("Usage:\nbidirectional -mm0 <problem> <tmpdir1 <tmpdir2>\n");
-  //MM0::MM0(start, goal, arg1, arg2);
   return 0;
 }

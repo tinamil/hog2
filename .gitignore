@@ -1,3 +1,5 @@
+*.open
+*.closed
 # Prerequisites
 *.d
 

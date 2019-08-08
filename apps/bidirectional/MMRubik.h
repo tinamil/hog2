@@ -26,8 +26,7 @@ namespace MM {
 		k8210
 	};
 	
-	void MM(RubiksState &start, RubiksState &goal, const char *prefix1, const char *prefix2,
-			heuristicType h, const char *heuristicloc);
+	void MM(RubiksState &start, RubiksState &goal, const char *prefix1, const char *prefix2, heuristicType h, const char *heuristicloc);
 	void CompareIDA(RubiksState &start, RubiksState &goal, heuristicType h, const char *heuristicloc);
 }
 
