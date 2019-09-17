@@ -22,7 +22,7 @@
 #include <cstdio>
 #include "BitVector.h"
 #include "MMapUtil.h"
-#include <sys/mman.h>
+//#include <sys/mman.h>
 
 
 BitVector::BitVector(uint64_t _size)

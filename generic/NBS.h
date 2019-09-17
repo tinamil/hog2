@@ -13,12 +13,14 @@
 #ifndef NBS_H
 #define NBS_H
 
-#include "BDOpenClosed.h"
-#include "FPUtil.h"
+#include "../algorithms/BDOpenClosed.h"
+#include "../utils/FPUtil.h"
 #include <unordered_map>
-#include "NBSQueue.h"
+#include "../algorithms/NBSQueue.h"
+#include <iostream>
+#include "../search/Heuristic.h"
 //#include "NBSQueueGF.h"
-#include "Graphics.h"
+//#include "Graphics.h"
 //#define EPSILON 1
 
 // ADMISSIBLE is defined at "BDOpenClosed.h"
@@ -108,10 +110,6 @@ public:
 	}
 	double GetSolutionCost() const { return currentCost; }
 	
-	void OpenGLDraw() const;
-	void Draw(Graphics::Display &d) const;
-	void DrawBipartiteGraph(Graphics::Display &d) const;
-	
 	//	void SetWeight(double w) {weight = w;}
 private:
 	void ExtractFromMiddle(std::vector<state> &thePath);
@@ -140,9 +138,6 @@ private:
 		} while (queue.forwardQueue.Lookup(node).parentID != node);
 		thePath.push_back(queue.forwardQueue.Lookup(node).data);
 	}
-	
-	void OpenGLDraw(const priorityQueue &queue) const;
-	void Draw(Graphics::Display &d, const priorityQueue &queue) const;
 	
 	void Expand(uint64_t nextID,
 				priorityQueue &current,
@@ -503,113 +498,6 @@ uint64_t NBS<state, action, environment, dataStructure, priorityQueue>::GetDoubl
 	}
 	return doubles;
 }
-
-template <class state, class action, class environment, class dataStructure, class priorityQueue>
-void NBS<state, action, environment, dataStructure, priorityQueue>::OpenGLDraw() const
-{
-	OpenGLDraw(queue.forwardQueue);
-	OpenGLDraw(queue.backwardQueue);
-}
-
-template <class state, class action, class environment, class dataStructure, class priorityQueue>
-void NBS<state, action, environment, dataStructure, priorityQueue>::OpenGLDraw(const priorityQueue &q) const
-{
-	double transparency = 0.9;
-	if (q.size() == 0)
-		return;
-	uint64_t top = -1;
-	//	double minf = 1e9, maxf = 0;
-	if (q.OpenReadySize() > 0)
-	{
-		top = q.Peek(kOpenReady);
-	}
-	for (unsigned int x = 0; x < q.size(); x++)
-	{
-		const auto &data = q.Lookat(x);
-		if (x == top)
-		{
-			env->SetColor(1.0, 1.0, 0.0, transparency);
-			env->OpenGLDraw(data.data);
-		}
-		if (data.where == kOpenWaiting)
-		{
-			env->SetColor(0.0, 0.5, 0.5, transparency);
-			env->OpenGLDraw(data.data);
-		}
-		else if (data.where == kOpenReady)
-		{
-			env->SetColor(0.0, 1.0, 0.0, transparency);
-			env->OpenGLDraw(data.data);
-		}
-		else if (data.where == kClosed)
-		{
-			if (&q == &queue.backwardQueue)
-				env->SetColor(1.0, 0.0, 1.0, transparency);
-			else
-				env->SetColor(1.0, 0.0, 0.0, transparency);
-			env->OpenGLDraw(data.data);
-		}
-	}
-}
-
-template <class state, class action, class environment, class dataStructure, class priorityQueue>
-void NBS<state, action, environment, dataStructure, priorityQueue>::Draw(Graphics::Display &d) const
-{
-	Draw(d, queue.forwardQueue);
-	Draw(d, queue.backwardQueue);
-}
-
-template <class state, class action, class environment, class dataStructure, class priorityQueue>
-void NBS<state, action, environment, dataStructure, priorityQueue>::Draw(Graphics::Display &d, const priorityQueue &q) const
-{
-	double transparency = 0.9;
-	if (q.size() == 0)
-		return;
-	uint64_t top = -1;
-	//	double minf = 1e9, maxf = 0;
-	if (q.OpenReadySize() > 0)
-	{
-		top = q.Peek(kOpenReady);
-	}
-	for (unsigned int x = 0; x < q.size(); x++)
-	{
-		const auto &data = q.Lookat(x);
-		if (x == top)
-		{
-			env->SetColor(1.0, 1.0, 0.0, transparency);
-			env->Draw(d, data.data);
-		}
-		else if (data.where == kOpenWaiting)
-		{
-			env->SetColor(1.0, 0.50, 0.25, transparency);
-			env->Draw(d, data.data);
-		}
-		else if (data.where == kOpenReady)
-		{
-			env->SetColor(1.0, 0.75, 0.25, transparency);
-			env->Draw(d, data.data);
-		}
-		else if (data.where == kClosed)
-		{
-			if (&q == &queue.backwardQueue)
-				env->SetColor(0.25, 0.5, 1.0, transparency);
-			else
-				env->SetColor(1.0, 0.0, 0.0, transparency);
-			env->Draw(d, data.data);
-		}
-	}
-}
-
-template <class state, class action, class environment, class dataStructure, class priorityQueue>
-void NBS<state, action, environment, dataStructure, priorityQueue>::DrawBipartiteGraph(Graphics::Display &d) const
-{
-	double val = queue.GetLowerBound();
-	//currentCost
-	assert(!"Implementaion incomplete");
-	//	Draw(d, queue.forwardQueue);
-//	Draw(d, queue.backwardQueue);
-}
-//void DrawBipartiteGraph(Graphics::Display &d);
 
 
 #endif /* NBS_h */

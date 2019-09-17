@@ -11,13 +11,11 @@
 #define GRAPHENVIRONMENT_H
 
 #include <stdint.h>
-#include <ext/hash_map>
 #include <iostream>
-#include "SearchEnvironment.h"
-#include "UnitSimulation.h"
-#include "Graph.h"
-//#include "GraphAbstraction.h"
-#include "GLUtil.h"
+#include "..\search\SearchEnvironment.h"
+#include "../simulation/UnitSimulation.h"
+#include "..\graph\Graph.h"
+#include "..\abstraction\GraphAbstraction.h"
 
 #ifndef UINT32_MAX
 #define UINT32_MAX        4294967295U

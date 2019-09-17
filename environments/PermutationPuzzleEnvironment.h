@@ -7,11 +7,11 @@
 #include <cstdio>
 #include <thread>
 #include <deque>
-#include "SearchEnvironment.h"
-#include "Timer.h"
-#include "SharedQueue.h"
-#include "RangeCompression.h"
-#include "MR1Permutation.h"
+#include "..\search\SearchEnvironment.h"
+#include "..\utils\Timer.h"
+#include "..\utils\SharedQueue.h"
+#include "..\utils\RangeCompression.h"
+#include "..\utils\MR1Permutation.h"
 
 #ifndef PERMPUZZ_H
 #define PERMPUZZ_H
@@ -80,7 +80,10 @@ namespace PermutationPuzzle {
 //		double PDB_Lookup(const state &s) const;
 		double HCost(const state &s) const;
 		virtual double AdditiveGCost(const state &s, const action &d)
-		{ assert(!"Additive Gost used but not defined for this class\n"); }
+    {
+      assert(!"Additive Gost used but not defined for this class\n"); 
+      return 0;
+    }
 		
 //		uint64_t GetPDBHash(const state &s,
 //							const std::vector<int> &distinct) const;

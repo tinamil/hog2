@@ -19,7 +19,7 @@ namespace STP {
 		for (int x = 0; x < walkLength; x++)
 		{
 			p.GetActions(s, acts);
-			p.ApplyAction(s, acts[random()%acts.size()]);
+			p.ApplyAction(s, acts[rand()%acts.size()]);
 		}
 		return s;
 	}

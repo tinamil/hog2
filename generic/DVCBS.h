@@ -8,13 +8,14 @@
 #ifndef DVCBS_h
 #define DVCBS_h
 
-#include "DVCBSOpenClosed.h"
-#include "FPUtil.h"
+#include "../algorithms/DVCBSOpenClosed.h"
+#include "../utils/FPUtil.h"
 #include <unordered_map>
-#include "DVCBSQueue.h"
+#include "../algorithms/DVCBSQueue.h"
 //#include "NBSQueueGF.h"
 #include <algorithm>
-
+#include <iostream>
+#include "../search/Heuristic.h"
 using std::cout;
 
 

@@ -12,15 +12,16 @@
 
 #include <stdint.h>
 #include <iostream>
-#include "SearchEnvironment.h"
+//#include "SearchEnvironment.h"
 #include "PermutationPuzzleEnvironment.h"
-#include "UnitSimulation.h"
-#include "GraphEnvironment.h"
-#include "Graph.h"
-#include "GraphEnvironment.h"
+//#include "UnitSimulation.h"
+//#include "GraphEnvironment.h"
+#include "../graph/Graph.h"
 #include <sstream>
 #include <array>
+#include <vector>
 
+typedef unsigned long graphState;
 template <int width, int height>
 class MNPuzzleState {
 public:
@@ -120,12 +121,12 @@ public:
 	void GetSuccessors(const MNPuzzleState<width, height> &stateID, std::vector<MNPuzzleState<width, height>> &neighbors) const;
 	void GetActions(const MNPuzzleState<width, height> &stateID, std::vector<slideDir> &actions) const;
 	slideDir GetAction(const MNPuzzleState<width, height> &s1, const MNPuzzleState<width, height> &s2) const;
-	slideDir GetAction(const MNPuzzleState<width, height> &l1, point3d p);
+	//slideDir GetAction(const MNPuzzleState<width, height> &l1, point3d p);
 	void ApplyAction(MNPuzzleState<width, height> &s, slideDir a) const;
 	bool InvertAction(slideDir &a) const;
 	static unsigned GetParity(const MNPuzzleState<width, height> &state);
 
-	OccupancyInterface<MNPuzzleState<width, height>, slideDir> *GetOccupancyInfo() { return 0; }
+	//OccupancyInterface<MNPuzzleState<width, height>, slideDir> *GetOccupancyInfo() { return 0; }
 	double HCost(const MNPuzzleState<width, height> &state1, const MNPuzzleState<width, height> &state2) const;
 	double HCost(const MNPuzzleState<width, height> &state1) const;
 	double DefaultH(const MNPuzzleState<width, height> &s) const;
@@ -146,13 +147,6 @@ public:
 	//virtual void FinishUnranking(MNPuzzleState<width, height> &s) const { s.FinishUnranking(); }
 
 	uint64_t GetActionHash(slideDir act) const;
-	void OpenGLDraw() const;
-	void OpenGLDraw(const MNPuzzleState<width, height> &s) const;
-	void OpenGLDraw(const MNPuzzleState<width, height> &l1, const MNPuzzleState<width, height> &l2, float v) const;
-	void OpenGLDraw(const MNPuzzleState<width, height> &, const slideDir &) const { /* currently not drawing moves */ }
-	void Draw(Graphics::Display &display, const MNPuzzleState<width, height>&) const;
-	void Draw(Graphics::Display &display, const MNPuzzleState<width, height> &l1, const MNPuzzleState<width, height> &l2, float v) const;
-
 	
 	void StoreGoal(MNPuzzleState<width, height> &); // stores the locations for the given goal state
 
@@ -914,208 +908,6 @@ void MNPuzzle<width, height>::GetStateFromPDBHash(uint64_t hash, MNPuzzleState<w
 		if (pattern[x] == 0)
 			s.blank = dual[x];
 	}
-}
-
-
-template <int width, int height>
-void MNPuzzle<width, height>::OpenGLDraw() const
-{
-}
-
-void DrawTile(float x, float y, char c1, char c2, int w, int h);
-void DrawFrame(int w, int h);
-
-template <int width, int height>
-void MNPuzzle<width, height>::Draw(Graphics::Display &display, const MNPuzzleState<width, height>&s) const
-{
-	float squareSize = std::max(width, height)+1;
-	squareSize = 2.0f/squareSize;
-	float xOrigin = (0-((float)width)/2.0f)*squareSize;
-	float yOrigin = (0-((float)height)/2.0f)*squareSize;
-	char txt[10];
-	display.FillRect({xOrigin, yOrigin, xOrigin+(width)*squareSize, yOrigin+(height)*squareSize}, Colors::gray);
-	display.FrameRect({xOrigin, yOrigin, xOrigin+(width)*squareSize, yOrigin+(height)*squareSize}, Colors::lightgray, 4);
-	for (unsigned int y = 0; y < height; y++)
-	{
-		for (unsigned int x = 0; x < width; x++)
-		{
-			if (s.puzzle[x+y*width] != 0)
-			{
-				sprintf(txt, "%d", s.puzzle[x+y*width]);
-				display.FillRect({xOrigin+x*squareSize, yOrigin+y*squareSize, xOrigin+(x+1)*squareSize, yOrigin+(y+1)*squareSize}, Colors::white);
-				display.FrameRect({xOrigin+x*squareSize, yOrigin+y*squareSize, xOrigin+(x+1)*squareSize, yOrigin+(y+1)*squareSize}, Colors::darkblue, 1);
-				if (s.puzzle[x+y*width] > 0)
-					display.DrawText(txt,
-									 {xOrigin+x*squareSize+squareSize/2.f, yOrigin+y*squareSize+squareSize/2.f},
-									 Colors::blue, squareSize/4.0f, Graphics::textAlignCenter);
-			}
-		}
-	}
-}
-
-template <int width, int height>
-slideDir MNPuzzle<width, height>::GetAction(const MNPuzzleState<width, height> &s, point3d p)
-{
-	int hitx=-1, hity=-1;
-	// Find which location was hit
-	{
-		float squareSize = std::max(width, height)+1;
-		squareSize = 2.0f/squareSize;
-		float xOrigin = (0-((float)width)/2.0f)*squareSize;
-		float yOrigin = (0-((float)height)/2.0f)*squareSize;
-		char txt[10];
-		for (unsigned int y = 0; y < height; y++)
-		{
-			for (unsigned int x = 0; x < width; x++)
-			{
-				if (s.puzzle[x+y*width] != 0)
-				{
-					Graphics::rect r = {xOrigin+x*squareSize, yOrigin+y*squareSize, xOrigin+(x+1)*squareSize, yOrigin+(y+1)*squareSize};
-					if (Graphics::PointInRect(p, r))
-					{
-						hitx = x;
-						hity = y;
-						break;
-					}
-				}
-			}
-		}
-	}
-	if (hitx == -1 || hity == -1)
-		return kNoSlide;
-
-	int x = hitx, y = hity;
-	if (s.puzzle[x+y*width] == 0)
-		return kNoSlide;
-	std::vector<slideDir> acts;
-	GetActions(s, acts);
-	auto tmp = s;
-	for (auto a : acts)
-	{
-		ApplyAction(tmp, a);
-		// If an action makes the place we clicked to be blank, that is the action we want
-		if (tmp.puzzle[x+y*width] == 0)
-		{
-			return a;
-		}
-		this->UndoAction(tmp, a);
-	}
-	return kNoSlide;
-}
-
-
-template <int width, int height>
-void MNPuzzle<width, height>::Draw(Graphics::Display &display, const MNPuzzleState<width, height> &s1, const MNPuzzleState<width, height> &s2, float v) const
-{
-	float squareSize = std::max(width, height)+1;
-	squareSize = 2.0f/squareSize;
-	float xOrigin = (0-((float)width)/2.0f)*squareSize;
-	float yOrigin = (0-((float)height)/2.0f)*squareSize;
-	char txt[10];
-	display.FillRect({xOrigin, yOrigin, xOrigin+(width)*squareSize, yOrigin+(height)*squareSize}, Colors::gray);
-	display.FrameRect({xOrigin, yOrigin, xOrigin+(width)*squareSize, yOrigin+(height)*squareSize}, Colors::lightgray, 4);
-	for (unsigned int y = 0; y < height; y++)
-	{
-		for (unsigned int x = 0; x < width; x++)
-		{
-			if (s1.puzzle[x+y*width] == s2.puzzle[x+y*width])
-			{
-				if (s1.puzzle[x+y*width] != 0)
-				{
-					sprintf(txt, "%d", s1.puzzle[x+y*width]);
-					display.FillRect({xOrigin+x*squareSize, yOrigin+y*squareSize, xOrigin+(x+1)*squareSize, yOrigin+(y+1)*squareSize}, Colors::white);
-					display.FrameRect({xOrigin+x*squareSize, yOrigin+y*squareSize, xOrigin+(x+1)*squareSize, yOrigin+(y+1)*squareSize}, Colors::darkblue, 1);
-					if (s1.puzzle[x+y*width] > 0)
-						display.DrawText(txt, {xOrigin+x*squareSize+squareSize/2.f, yOrigin+y*squareSize+squareSize/2.f}, Colors::blue, squareSize/4.0f, Graphics::textAlignCenter);
-				}
-			}
-			else if (s1.puzzle[x+y*width] != 0)
-			{
-				Graphics::point p1 = {xOrigin+x*squareSize, yOrigin+y*squareSize};
-				Graphics::point p2;
-				switch (GetAction(s1, s2))
-				{
-					case kUp:
-						p2  = {xOrigin+x*squareSize, yOrigin+(y+1)*squareSize};
-						break;
-					case kDown:
-						p2  = {xOrigin+x*squareSize, yOrigin+(y-1)*squareSize};
-						break;
-					case kLeft:
-						p2  = {xOrigin+(x+1)*squareSize, yOrigin+(y)*squareSize};
-						break;
-					case kRight:
-						p2  = {xOrigin+(x-1)*squareSize, yOrigin+(y)*squareSize};
-						break;
-
-					default: assert(!"action not found");
-				}
-				sprintf(txt, "%d", s1.puzzle[x+y*width]);
-				display.FillRect({p1.x*v+p2.x*(1-v), p1.y*v+p2.y*(1-v), p1.x*v+p2.x*(1-v)+squareSize, p1.y*v+p2.y*(1-v)+squareSize}, Colors::white);
-				display.FrameRect({p1.x*v+p2.x*(1-v), p1.y*v+p2.y*(1-v), p1.x*v+p2.x*(1-v)+squareSize, p1.y*v+p2.y*(1-v)+squareSize}, Colors::darkblue, 1);
-
-				if (s1.puzzle[x+y*width] > 0)
-					display.DrawText(txt, {p1.x*v+p2.x*(1-v)+squareSize/2.f, p1.y*v+p2.y*(1-v)+squareSize/2.f}, Colors::blue, squareSize/4.0f, Graphics::textAlignCenter);
-			}
-		}
-	}
-}
-
-
-template <int width, int height>
-void MNPuzzle<width, height>::OpenGLDraw(const MNPuzzleState<width, height> &s) const
-{
-	glEnable(GL_LINE_SMOOTH);
-	for (unsigned int y = 0; y < height; y++)
-	{
-		for (unsigned int x = 0; x < width; x++)
-		{
-			char c1=0, c2=0;
-			if (s.puzzle[x+y*width] > 9)
-				c1 = '0'+(((s.puzzle[x+y*width])/10)%10);
-			if (s.puzzle[x+y*width] > 0)
-				c2 = '0'+((s.puzzle[x+y*width])%10);
-			if (s.puzzle[x+y*width] == -1)
-				c1 = ' ';
-			DrawTile(x, y, c1, c2, width, height);
-		}
-	}
-	DrawFrame(width, height);
-}
-
-template <int width, int height>
-void MNPuzzle<width, height>::OpenGLDraw(const MNPuzzleState<width, height> &s1, const MNPuzzleState<width, height> &s2, float v) const
-{
-	glEnable(GL_LINE_SMOOTH);
-	for (unsigned int y = 0; y < height; y++)
-	{
-		for (unsigned int x = 0; x < width; x++)
-		{
-			char c1=0, c2=0;
-			if (s2.puzzle[x+y*width] > 9)
-				c1 = '0'+(((s2.puzzle[x+y*width])/10)%10);
-			if (s2.puzzle[x+y*width] > 0)
-				c2 = '0'+((s2.puzzle[x+y*width])%10);
-			if (s2.puzzle[x+y*width] == -1)
-				c1 = ' ';
-			
-			if (s1.puzzle[x+y*width] == s2.puzzle[x+y*width])
-			{
-				DrawTile(x, y, c1, c2, width, height);
-			}
-			else {
-				switch (GetAction(s1, s2))
-				{
-					case kUp: DrawTile(x, (y-1)*v + (y)*(1-v), c1, c2, width, height); break;
-					case kDown: DrawTile(x, (y+1)*v + (y)*(1-v), c1, c2, width, height); break;
-					case kLeft: DrawTile((x)*(1-v)+(x-1)*v, y, c1, c2, width, height); break;
-					case kRight: DrawTile((x+1)*v+(x)*(1-v), y, c1, c2, width, height); break;
-					default: assert(!"action not found");
-				}
-			}
-		}
-	}
-	DrawFrame(width, height);
 }
 
 /**

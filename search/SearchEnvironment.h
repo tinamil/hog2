@@ -110,7 +110,7 @@ action SearchEnvironment<state,action>::GetAction(const state &s1, const state &
 	}
 	assert(!"No legal move found.");
 	action act;
-	return 0;
+	//return 0;
 }
 
 template <class state, class action>

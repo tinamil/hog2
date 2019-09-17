@@ -10,10 +10,10 @@
 #define WeightedVertexGraph_h
 
 #include "TemplateAStar.h"
-#include "SVGUtil.h"
+//#include "SVGUtil.h"
 #include <map>
 #include <sstream>
-#include "StringUtils.h"
+#include "..\utils\StringUtils.h"
 
 template <class state, class action, class environment>
 class BidirectionalProblemAnalyzer {

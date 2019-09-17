@@ -9,9 +9,9 @@
 #ifndef MM_h
 #define MM_h
 
-#include "AStarOpenClosed.h"
-#include "FPUtil.h"
-#include "Timer.h"
+#include "../algorithms/AStarOpenClosed.h"
+#include "../utils/FPUtil.h"
+#include "../utils/Timer.h"
 #include <unordered_map>
 
 template <class state, int epsilon = 1>

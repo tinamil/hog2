@@ -29,6 +29,7 @@
 #include "GraphAbstraction.h"
 #include <math.h>
 #include <cassert>
+#include <algorithm>
 
 using namespace GraphAbstractionConstants;
 using namespace std;
@@ -347,6 +348,6 @@ int GraphAbstraction::CountEdgesAtDistance(node *child, node *parent, std::vecto
 node* GraphAbstraction::GetRandomGroundNodeFromNode(node *n)
 {
 	while (GetAbstractionLevel(n) != 0)
-		n = GetNthChild(n, random()%GetNumChildren(n));
+		n = GetNthChild(n, rand()%GetNumChildren(n));
 	return n;
 }

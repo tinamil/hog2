@@ -202,26 +202,26 @@ void GetKorf1997(Heuristic<RubiksState>& result)
   result.heuristics.push_back(pdb3);
 }
 
-//#define IDA
+#define IDA
 int main()
 {
   _setmaxstdio(1000);
   static RubiksState start, goal;
 
-  RubiksCube c;
   goal.Reset();
 
-  GetSuperFlip(start);
-  GetKorfRubikInstance(start, 7);
+  //GetSuperFlip(start);
+  GetKorfRubikInstance(start, 0);
 
   std::vector<RubiksAction> acts;
   std::vector<RubiksAction> path;
+#ifdef IDA
+  RubiksCube c;
   c.SetPruneSuccessors(true);
   ParallelIDAStar<RubiksCube, RubiksState, RubiksAction> ida;
   Heuristic<RubiksState> result;
   Timer t;
   GetKorf1997(result);
-#ifdef IDA
   ida.SetHeuristic(&result);
   t.StartTimer();
   ida.GetPath(&c, start, goal, path);
@@ -237,8 +237,9 @@ int main()
     std::cout << path[x] << " ";
   }
   std::cout << "\n";
+#else
+  MM::MM(start, goal, "set1/", "set2/", MM::k1997, "heuristics/");
 #endif
-  MM::MM(start, goal, "set1/", "set2/", MM::k888, "heuristics/");
-
+  
   return 0;
 }

@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DebugDV|Win32">
+      <Configuration>DebugDV</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDVCBS|Win32">
+      <Configuration>ReleaseDVCBS</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DebugDV|x64">
+      <Configuration>DebugDV</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseDVCBS|x64">
+      <Configuration>ReleaseDVCBS</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{AF328461-4F37-47D4-A2D0-05AFF5E5AE29}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDV|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDV|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugDV|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DebugDV|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugDV|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugDV|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseDVCBS|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <SDLCheck>true</SDLCheck>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="abstraction\GraphAbstraction.h" />
+    <ClInclude Include="algorithms\AStarOpenClosed.h" />
+    <ClInclude Include="algorithms\BDOpenClosed.h" />
+    <ClInclude Include="algorithms\BucketOpenClosed.h" />
+    <ClInclude Include="algorithms\DVCBSOpenClosed.h" />
+    <ClInclude Include="algorithms\DVCBSQueue.h" />
+    <ClInclude Include="algorithms\NBSQueue.h" />
+    <ClInclude Include="apps\bidirectional\BSStar.h" />
+    <ClInclude Include="apps\bidirectional\NBSQueueGF.h" />
+    <ClInclude Include="environments\MNPuzzle.h" />
+    <ClInclude Include="environments\PermutationPuzzleEnvironment.h" />
+    <ClInclude Include="envutil\STPInstances.h" />
+    <ClInclude Include="generic\DVCBS.h" />
+    <ClInclude Include="generic\GenericSearchAlgorithm.h" />
+    <ClInclude Include="generic\MM.h" />
+    <ClInclude Include="generic\NBS.h" />
+    <ClInclude Include="generic\TemplateAStar.h" />
+    <ClInclude Include="generic\WeightedVertexGraph.h" />
+    <ClInclude Include="graphalgorithms\Path.h" />
+    <ClInclude Include="graph\Graph.h" />
+    <ClInclude Include="search\Constraint.h" />
+    <ClInclude Include="search\Heuristic.h" />
+    <ClInclude Include="search\LexPermutationPDB.h" />
+    <ClInclude Include="search\MR1PermutationPDB.h" />
+    <ClInclude Include="search\PermutationPDB.h" />
+    <ClInclude Include="search\SearchEnvironment.h" />
+    <ClInclude Include="simulation\OccupancyInterface.h" />
+    <ClInclude Include="simulation\ReservationProvider.h" />
+    <ClInclude Include="simulation\SimulationInfo.h" />
+    <ClInclude Include="utils\FPUtil.h" />
+    <ClInclude Include="utils\MR1Permutation.h" />
+    <ClInclude Include="utils\NBitArray.h" />
+    <ClInclude Include="utils\RangeCompression.h" />
+    <ClInclude Include="utils\SharedQueue.h" />
+    <ClInclude Include="utils\StatCollection.h" />
+    <ClInclude Include="utils\StringUtils.h" />
+    <ClInclude Include="utils\Timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="abstraction\GraphAbstraction.cpp" />
+    <ClCompile Include="apps\bidirectional\BidirSTP.cpp" />
+    <ClCompile Include="envutil\STPInstances.cpp" />
+    <ClCompile Include="graphalgorithms\Path.cpp" />
+    <ClCompile Include="graph\Graph.cpp" />
+    <ClCompile Include="utils\MR1Permutation.cpp" />
+    <ClCompile Include="utils\NBitArray.cpp" />
+    <ClCompile Include="utils\RangeCompression.cpp" />
+    <ClCompile Include="utils\StatCollection.cpp" />
+    <ClCompile Include="utils\StringUtils.cpp" />
+    <ClCompile Include="utils\Timer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

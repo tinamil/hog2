@@ -29,7 +29,7 @@
 #ifndef UNITGROUP_H
 #define UNITGROUP_H
 
-#include "BitVector.h"
+//#include "BitVector.h"
 #include "Map.h"
 //#include "MapAbstraction.h"
 #include "ReservationProvider.h"

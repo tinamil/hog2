@@ -9,7 +9,7 @@
 #ifndef STPInstances_h
 #define STPInstances_h
 
-#include "MNPuzzle.h"
+#include "../environments/MNPuzzle.h"
 
 namespace STP {
 

@@ -154,7 +154,6 @@
     <ClCompile Include="environments\RubiksCubeEdges.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utils\DiskBitFile.cpp" />
-    <ClCompile Include="utils\EnvUtil.cpp" />
     <ClCompile Include="utils\FourBitArray.cpp" />
     <ClCompile Include="utils\FPUtil.cpp" />
     <ClCompile Include="utils\MR1Permutation.cpp" />

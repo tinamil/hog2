@@ -28,11 +28,11 @@
 #include <cmath>
 #include <cstdarg>
 #include <cstdio>
-#include <unistd.h>
+//#include <unistd.h>
 #include <iostream>
 #include <stdint.h>
 
-#include "GLUtil.h"
+//#include "GLUtil.h"
 //#include "Graph.h"
 
 enum tTileset {
@@ -247,7 +247,7 @@ private:
 	int width, height;
 	Tile **land;
 	bool drawLand;
-	mutable GLuint dList;
+	//mutable GLuint dList;
 	mutable bool updated;
 	int sizeMultiplier;
 	int revision;

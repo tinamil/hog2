@@ -23,7 +23,7 @@
 #include <cstdlib>
 #include "Graph.h"
 #include <cstring>
-
+#include <algorithm>
 #include <vector>
 
 using namespace std;
@@ -279,7 +279,7 @@ bool Graph::relaxReverseEdge(edge *e, int weightIndex)
 node *Graph::GetRandomNode()
 {
 	if (_nodes.size() == 0) return 0;
-	int rand_val = (int)(((double)random()/RAND_MAX)*_nodes.size());
+	int rand_val = (int)(((double)rand()/RAND_MAX)*_nodes.size());
 	return _nodes[rand_val];
 }
 
@@ -287,7 +287,7 @@ edge *Graph::GetRandomEdge()
 {
 	if (_edges.size() == 0) return 0;
 	//	int rand_val = random()%edge_index;
-	int rand_val = (int)(((double)random()/RAND_MAX)*_edges.size());
+	int rand_val = (int)(((double)rand()/RAND_MAX)*_edges.size());
 	return _edges[rand_val];
 	//return 0;
 }
@@ -762,19 +762,19 @@ edge *node::edgeIterNext(edge_iterator &iter) const
 
 edge *node::getRandomIncomingEdge()
 {
-	int rand_val = random()%_edgesIncoming.size();
+	int rand_val = rand()%_edgesIncoming.size();
 	return _edgesIncoming[rand_val];
 }
 
 edge *node::getRandomOutgoingEdge()
 {
-	int rand_val = random()%_edgesOutgoing.size();
+	int rand_val = rand()%_edgesOutgoing.size();
 	return _edgesOutgoing[rand_val];
 }
 
 edge *node::GetRandomEdge()
 {
-	int rand_val = random()%_allEdges.size();
+	int rand_val = rand()%_allEdges.size();
 	return _allEdges[rand_val];
 }
 

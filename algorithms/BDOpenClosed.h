@@ -7,7 +7,6 @@
 
 #include <cassert>
 #include <vector>
-#include <ext/hash_map>
 #include <stdint.h>
 #include "AStarOpenClosed.h"
 
@@ -123,7 +122,7 @@ private:
 	//std::vector<uint64_t> waitingQueue;
 
 	// storing the element id; looking up with...hash?
-	typedef __gnu_cxx::hash_map<uint64_t, uint64_t, AHash64> IndexTable;
+	typedef std::unordered_map<uint64_t, uint64_t, AHash64> IndexTable;
 	
 	IndexTable table;
 	//all the elements, open or closed

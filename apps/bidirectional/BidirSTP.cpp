@@ -6,17 +6,16 @@
 //  Copyright © 2017 University of Denver. All rights reserved.
 //
 
-#include "BidirSTP.h"
-#include "MNPuzzle.h"
-#include "NBS.h"
-#include "IDAStar.h"
-#include "MM.h"
-#include "BSStar.h"
-#include "TemplateAStar.h"
-#include "WeightedVertexGraph.h"
-#include "STPInstances.h"
-#include "LexPermutationPDB.h"
-#include "MR1PermutationPDB.h"
+#include "..\\..\\generic/NBS.h"
+#include "..\\..\\generic/IDAStar.h"
+#include "..\\..\\generic\MM.h"
+#include "..\\..\\apps\bidirectional\BSStar.h"
+#include "..\..\\generic\\TemplateAStar.h"
+#include "..\..\\generic\\WeightedVertexGraph.h"
+#include "..\\..\\envutil\STPInstances.h"
+#include "..\\..\\search\LexPermutationPDB.h"
+#include "..\\..\\search\MR1PermutationPDB.h"
+#include "..\\..\\environments\MNPuzzle.h"
 
 typedef MR1PermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>> STPPDB;
 void MakePDBs(MNPuzzleState<4, 4> g, Heuristic<MNPuzzleState<4, 4>> &h, MNPuzzle<4,4> &mnp)
@@ -53,7 +52,7 @@ void TestSTP(int algorithm)
 {
 	NBS<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4,4>> nbs;
 	MM<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4,4>> mm;
-	BSStar<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4,4>> bs;
+	//BSStar<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4,4>> bs;
 	TemplateAStar<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4,4>> astar;
 	MNPuzzle<4,4> mnp;
 	
@@ -62,7 +61,7 @@ void TestSTP(int algorithm)
 	MakePDBs(goal, h_f, mnp);
 
 	
-	for (int x = 0; x < 100; x++) // 547 to 540
+	for (int x = 0; x < 10; x++) // 547 to 540
 	{
 		Heuristic<MNPuzzleState<4, 4>> h_b;
 		printf("Problem %d of %d\n", x+1, 100);
@@ -119,10 +118,10 @@ void TestSTP(int algorithm)
 			goal.Reset();
 			start = STP::GetKorfInstance(x);
 			t2.StartTimer();
-			bs.GetPath(&mnp, start, goal, &mnp, &mnp, nbsPath);
+			//bs.GetPath(&mnp, start, goal, &mnp, &mnp, nbsPath);
 			t2.EndTimer();
-			printf("BS* found path length %1.0f; %llu expanded; %llu necessary; %llu generated; %1.2fs elapsed\n", mnp.GetPathLength(nbsPath),
-				   bs.GetNodesExpanded(), bs.GetNecessaryExpansions(), bs.GetNodesTouched(), t2.GetElapsedTime());
+			//printf("BS* found path length %1.0f; %llu expanded; %llu necessary; %llu generated; %1.2fs elapsed\n", mnp.GetPathLength(nbsPath),
+				  // bs.GetNodesExpanded(), bs.GetNecessaryExpansions(), bs.GetNodesTouched(), t2.GetElapsedTime());
 		}
 		if (algorithm == 2) // MM
 		{
@@ -165,7 +164,6 @@ void TestSTP(int algorithm)
 //		std::cout << astar.GetNodesExpanded() << "\t" << nbs.GetNodesExpanded() << "\t";
 //		std::cout << t1.GetElapsedTime() << "\t" <<  t2.GetElapsedTime() << "\n";
 	}
-	exit(0);
 }
 
 void TestSTPFull()
@@ -238,9 +236,11 @@ void TestSTPFull()
 //					std::cout << " backward g: " << nbs.GetNodeBackwardG(x);
 //				std::cout << "\n";
 //			}
-			exit(0);
 		}
 		
 	}
-	exit(0);
+}
+
+int main() {
+  TestSTP(3);
 }
